@@ -1,0 +1,184 @@
+body {
+    background-color : Lightblue;
+    padding: 20px;
+}
+h1 {
+    color: darkblue;
+    text-align: center;
+}
+p {
+    font-size: 18px;
+    text-align: center;
+}
+h2 {
+    color: darkblue;
+    margin:0;  
+}
+nav {
+    background-color: white;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+   align-items: center;
+}
+nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: darkblue;
+    font-weight: bold;
+}
+.nav-links {
+    display: flex;
+    gap: 26px;
+}
+.nav-links a {
+    text-decoration: none;
+    color: darkblue;
+    font-weight : bold;
+}
+.blog-card{
+    background-color: white;
+    padding: 20px;
+    margin: 30px auto;
+    max-width: 600px;
+    border-radius: 10px;
+}
+.login-box {
+    background-color: white;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.login-box h2 {
+    text-align :center;
+    color : darkblue;
+}
+.login-box label {
+    display :block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+.login-box input {
+    width:100%;
+    padding: 10px;
+    margin-top: 5px;
+    box-sizzing: border-box;
+}
+.login-box button {
+    width : 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color:darkblue ;
+    color:white;
+    border: none;
+    border-radius: 5px;
+}
+.login-box {
+background-color: white;
+    width:350px;
+    margin:40px auto;
+    padding:30px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+
+}
+
+.login-box h2 {
+    text-align:center;
+    color: darkblue;
+    margin-bottom:25px;
+}
+
+.login-box form {
+    display:flex;
+    flex-direction: column;
+}
+
+.loging-box label { 
+    margin: 10px;
+    margin- bottom: 5px;
+    font-weight:bold;
+}
+
+.login-box input{
+    padding: 10px;
+    border: 1px solid#ccc;
+    border-radius: 5px;
+}
+
+.login-box button { 
+    margin-top: 20px;
+    padding:10px;
+    background-color: darkblue;
+    color:white;
+    border:none;
+    border-radius: 5px;
+    cursor:pointer;
+}
+ 
+.login-box button:hover {
+    background-color: blue;
+}
+
+.login-box p {
+    text-align: center;
+    margin-top: 20px;
+}
+
+nav {
+    display: :flex;
+    gap:20px;
+    padding:15px 30px;
+    background-color: while;
+}
+
+nav a {
+    text-decoration:  none;
+    color : darkblue;
+    font-weight:bold;
+
+}
+
+.dashboard-container {
+    padding: 30px;
+}
+
+.create-btn {
+    display: inline-block;
+    margin-bottom:20px;
+    padding: 10px 15px;
+    background-color: darkblue;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.blog-list {
+    display: flex;
+    flex-direction:column;
+    gap: 20px;
+}
+
+.blog-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width:500px;
+
+}
+
+.card-actions a {
+    margin-right: 15px;
+    color: darkblue;
+    text-decoration: none;
+    font-weight: bold;
+
+}
+
+.login-box textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius:5px;
+    font-family: inherit;
+}
