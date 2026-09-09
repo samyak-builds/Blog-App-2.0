@@ -169,22 +169,27 @@ async function loadBlogs() {
         data.blogs.forEach(function(blog) {
 
             const blogCard =
-                document.createElement("div");
+    document.createElement("div");
 
-            blogCard.className = "blog-card";
+blogCard.className = "blog-card";
 
+blogCard.innerHTML = `
 
-            blogCard.innerHTML = `
+    <h3>${blog.title}</h3>
 
-                <h3>${blog.title}</h3>
+    <p>${blog.content}</p>
 
-                <p>${blog.content}</p>
+    <small>
+        By ${blog.authorName}
+    </small>
 
-                <small>
-                    By ${blog.authorName}
-                </small>
+`;
 
-            `;
+blogCard.addEventListener("click", function() {
+
+    window.location.href = `blog.html?id=${blog._id}`;
+
+});
 
 
             blogContainer.appendChild(blogCard);

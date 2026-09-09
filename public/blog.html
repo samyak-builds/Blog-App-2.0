@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Blog Details</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1 id="blogTitle">Loading...</h1>
+
+        <p id="blogAuthor"></p>
+
+        <p id="blogDate"></p>
+
+        <hr>
+
+        <div id="blogContent">
+            Loading blog...
+        </div>
+
+        <br>
+
+        <a href="dashboard.html">← Back to Dashboard</a>
+
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const blogId = params.get("id");
+
+        async function loadBlog() {
+
+            if (!blogId) {
+                document.getElementById("blogTitle").textContent = "Blog not found";
+                return;
+            }
+
+            try {
+
+                const response = await fetch(`/api/blogs/${blogId}`);
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    document.getElementById("blogTitle").textContent =
+                        "Blog not found";
+                    return;
+                }
+
+                const blog = data.blog;
+
+                document.getElementById("blogTitle").textContent =
+                    blog.title;
+
+                document.getElementById("blogAuthor").textContent =
+                    "By " + blog.authorName;
+
+                document.getElementById("blogDate").textContent =
+                    new Date(blog.createdAt).toLocaleString();
+
+                document.getElementById("blogContent").textContent =
+                    blog.content;
+
+            } catch (error) {
+
+                console.error(error);
+
+                document.getElementById("blogTitle").textContent =
+                    "Unable to load blog";
+
+            }
+        }
+
+        loadBlog();
+    </script>
+
+</body>
+
+</html>
