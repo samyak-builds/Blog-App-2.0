@@ -1,39 +1,65 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Register- My Blog</title>
-    <link rel="stylesheet"href="style.css">
 
+<head>
+    <title>Register - My Blog</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
     <h1>Register</h1>
 
-    <div class="login-box">      
+    <div class="login-box">
+
         <h2>Create Account</h2>
 
-        <form>
-            <lable>Full Name</lable>
-            <input type="text" placeholder="Enter your name">
+        <form id="registerForm">
 
-            <label> Email</label>
-            <input type ="email" paceholder="Enter your email">
-             
-            <label> confirm Password </label>
-            <input type="password" placeholder="create a password">
+            <label>Full Name</label>
+            <input
+                type="text"
+                id="name"
+                placeholder="Enter your name"
+                required
+            >
+
+            <label>Email</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+            >
+
+            <label>Password</label>
+            <input
+                type="password"
+                id="password"
+                placeholder="Create a password"
+                required
+            >
 
             <label>Confirm Password</label>
-            <input type="password" placeholder="Confirm your password">
-            <button type="subit">Register</button>
+            <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Confirm your password"
+                required
+            >
+
+            <button type="submit">Register</button>
 
         </form>
 
-        <p>Alrady have an account?
+        <p>
+            Already have an account?
             <a href="login.html">Login</a>
-
         </p>
 
-      </div>
+    </div>
+
+    <script src="script.js"></script>
+
 </body>
 </html>

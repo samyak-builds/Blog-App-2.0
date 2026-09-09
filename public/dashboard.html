@@ -1,49 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta carset="UTF-8">
+    <meta charset="UTF-8">
+
     <title>Dashboard - My Blog</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <nav>
-        <a href="index.html"></a>
-        <a href="about.html"></a>
+
+        <a href="index.html">Home</a>
+
         <a href="dashboard.html">Dashboard</a>
-        <a href="login.html">Logout</a>
+
+        <a href="createblog.html">Create Blog</a>
+
+        <a href="#" id="logoutBtn">Logout</a>
+
     </nav>
 
+
     <h1>My Dashboard</h1>
-    <p>Welcomet back! Here are your blog posts.</p>
 
-   <div class="dashboard-container">
-    
-    <a href="createblog.html" class="create-btn">+ Create New Blog</a>
+    <p>Welcome back! Here are your blog posts.</p>
 
-    <div class="blog-list">
 
-        <div class="blog-card">
-            <h3>My First Blog Post</h3>
-            <p>This is my first blog post. I am leaning web development and building my own blog application.</p>
-            <div class="card-actions">
-                <a href="#">Edit</a>
-                <a href="#">Delete</a>
-            </div>
-        </div>
+    <div class="dashboard-container">
 
-        <div class="blog-card">
-            <h3>What I Learned Today</h3>
-            <p>Today I Learned how HTML amd CSS work togather to create a website.</p>
-            <div class="card-actions">
-                <a href="#">Edit</a>
-                <a href="#">Delete</a>
-            </div>
+        <a href="createblog.html" class="create-btn">
+            + Create New Blog
+        </a>
+
+
+        <!-- Blogs will be loaded here -->
+
+        <div class="blog-list" id="blogContainer">
+
+            <p>Loading blogs...</p>
+
         </div>
 
     </div>
-   </div>
-   
-   <script src="script.js"></script>
+
+
+    <script src="script.js"></script>
+
 </body>
+
 </html>

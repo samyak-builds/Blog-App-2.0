@@ -1,34 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Create Blog - My Blog</title>
-<link rel="stylesheet" href="style.css">
-</head> 
-</html>
 
-<nav>
-    <a href="index.html">Home</a>
-    <a href="dashboard.html">dashboard</a>
-    <a href="login.html">Logout</a>
-</nav>
+    <meta charset="UTF-8">
 
-<h1>Create Blog</h1>
+    <title>Create Blog - My Blog</title>
 
-<div class="login-box">
-    <h2>New Blog Post </h2>
-    <form id="blogForm">
-    <label for="title">Title</label>
-    <input typw="text" id="title" name="title" required>
+    <link rel="stylesheet" href="style.css">
 
-    <label for="content">Content</label>
-    <textarea id="content" name="content" rows="6" required></textarea>
+</head>
 
-    <button type="submit">Pulish</button>
-    </form>
-    <p id="statusMsg"></p>
-</div>
+<body>
 
-<script src="script.js"></script>
-    </body>
+    <nav>
+
+        <a href="index.html">Home</a>
+
+        <a href="dashboard.html">Dashboard</a>
+
+        <a href="login.html">Logout</a>
+
+    </nav>
+
+
+    <h1>Create Blog</h1>
+
+
+    <div class="login-box">
+
+        <h2>New Blog Post</h2>
+
+
+        <form id="blogForm">
+
+            <label for="title">
+                Title
+            </label>
+
+            <input
+                type="text"
+                id="title"
+                name="title"
+                placeholder="Enter blog title"
+                required
+            >
+
+
+            <label for="content">
+                Content
+            </label>
+
+            <textarea
+                id="content"
+                name="content"
+                rows="6"
+                placeholder="Write your blog..."
+                required
+            ></textarea>
+
+
+            <button type="submit">
+                Publish
+            </button>
+
+        </form>
+
+
+        <p id="statusMsg"></p>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
 </html>
