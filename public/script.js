@@ -153,7 +153,6 @@ async function loadBlogs() {
             return;
         }
 
-
         if (data.blogs.length === 0) {
 
             blogContainer.innerHTML =
@@ -162,35 +161,89 @@ async function loadBlogs() {
             return;
         }
 
-
         blogContainer.innerHTML = "";
-
 
         data.blogs.forEach(function(blog) {
 
             const blogCard =
-    document.createElement("div");
+                document.createElement("div");
 
-blogCard.className = "blog-card";
+            blogCard.className = "blog-card";
 
-blogCard.innerHTML = `
+            blogCard.innerHTML = `
 
-    <h3>${blog.title}</h3>
+                <h3>${blog.title}</h3>
 
-    <p>${blog.content}</p>
+                <p>${blog.content}</p>
 
-    <small>
-        By ${blog.authorName}
-    </small>
+                <small>
+                    By ${blog.authorName}
+                </small>
 
-`;
+                <br><br>
 
-blogCard.addEventListener("click", function() {
+                <button class="edit-btn">
+                    Edit
+                </button>
 
-    window.location.href = `blog.html?id=${blog._id}`;
+                <button class="delete-btn">
+                    Delete
+                </button>
 
-});
+            `;
 
+            // Open blog details
+            blogCard.addEventListener("click", function(event) {
+
+                if (
+                    event.target.classList.contains("edit-btn") ||
+                    event.target.classList.contains("delete-btn")
+                ) {
+                    return;
+                }
+
+                window.location.href =
+                    `blog.html?id=${blog._id}`;
+
+            });
+
+            // Edit button
+            const editButton =
+                blogCard.querySelector(".edit-btn");
+
+            editButton.addEventListener("click", function() {
+
+                const newTitle =
+                    prompt("Enter new title:", blog.title);
+
+                if (!newTitle) {
+                    return;
+                }
+
+                const newContent =
+                    prompt("Enter new content:", blog.content);
+
+                if (!newContent) {
+                    return;
+                }
+
+                updateBlog(
+                    blog._id,
+                    newTitle,
+                    newContent
+                );
+
+            });
+
+            // Delete button
+            const deleteButton =
+                blogCard.querySelector(".delete-btn");
+
+            deleteButton.addEventListener("click", function() {
+
+                deleteBlog(blog._id);
+
+            });
 
             blogContainer.appendChild(blogCard);
 
@@ -202,6 +255,96 @@ blogCard.addEventListener("click", function() {
 
         blogContainer.innerHTML =
             "<p>Could not connect to the server.</p>";
+
+    }
+
+}
+
+
+// UPDATE BLOG
+// UPDATE BLOG
+async function updateBlog(id, title, content) {
+
+    try {
+
+        const response = await fetch(`/api/blogs/${id}`, {
+
+            method: "PUT",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                title: title,
+                content: content
+            })
+
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            alert("Blog updated successfully!");
+
+            loadBlogs();
+
+        } else {
+
+            alert(data.message);
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Could not update blog.");
+
+    }
+
+}
+
+
+// DELETE BLOG
+async function deleteBlog(id) {
+
+    const confirmDelete =
+        confirm("Are you sure you want to delete this blog?");
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(`/api/blogs/${id}`, {
+
+                method: "DELETE"
+
+            });
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            alert("Blog deleted successfully!");
+
+            loadBlogs();
+
+        } else {
+
+            alert(data.message);
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Could not delete blog.");
 
     }
 

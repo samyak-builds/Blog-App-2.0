@@ -281,6 +281,91 @@ app.get("/api/blogs/:id", async (req, res) => {
 });
 
 
+// UPDATE BLOG
+app.put("/api/blogs/:id", async (req, res) => {
+
+    try {
+
+        const { title, content } = req.body;
+
+        if (!title || !content) {
+            return res.status(400).json({
+                success: false,
+                message: "Title and content are required"
+            });
+        }
+
+        const updatedBlog = await Blog.findByIdAndUpdate(
+            req.params.id,
+            {
+                title: title,
+                content: content
+            },
+            {
+                new: true,
+                runValidators: true
+            }
+        );
+
+        if (!updatedBlog) {
+            return res.status(404).json({
+                success: false,
+                message: "Blog not found"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Blog updated successfully",
+            blog: updatedBlog
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+
+    }
+
+});
+
+// DELETE BLOG
+app.delete("/api/blogs/:id", async (req, res) => {
+
+    try {
+
+        const deletedBlog = await Blog.findByIdAndDelete(
+            req.params.id
+        );
+
+        if (!deletedBlog) {
+            return res.status(404).json({
+                success: false,
+                message: "Blog not found"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Blog deleted successfully"
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+
+    }
+
+});
 
 // ================================
 // START SERVER
