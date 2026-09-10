@@ -16,6 +16,7 @@ const app = express();
 const cors = require("cors");
 const path = require("path");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const PORT = 5000;
 
@@ -25,6 +26,39 @@ app.use(express.json());
 
 // Serve frontend
 app.use(express.static(path.join(__dirname, "public")));
+
+// JWT AUTHENTICATION MIDDLEWARE
+function authenticateToken(req, res, next) {
+
+    const authHeader = req.headers["authorization"];
+
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (!token) {
+        return res.status(401).json({
+            success: false,
+            message: "Access denied. Please login."
+        });
+    }
+
+    jwt.verify(
+        token,
+        process.env.JWT_SECRET,
+        (error, user) => {
+
+            if (error) {
+                return res.status(403).json({
+                    success: false,
+                    message: "Invalid or expired token"
+                });
+            }
+
+            req.user = user;
+
+            next();
+        }
+    );
+}
 
 // Temporary storage
 // MongoDB will be added in Module 3
@@ -142,15 +176,28 @@ app.post("/api/login", async (req, res) => {
             });
         }
 
-        res.json({
-            success: true,
-            message: "Login successful",
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email
-            }
-        });
+        const token = jwt.sign(
+    {
+        id: user._id,
+        name: user.name,
+        email: user.email
+    },
+    process.env.JWT_SECRET,
+    {
+        expiresIn: "1d"
+    }
+);
+
+res.json({
+    success: true,
+    message: "Login successful",
+    token: token,
+    user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
+    }
+});
 
     } catch (error) {
 
@@ -171,7 +218,7 @@ app.post("/api/login", async (req, res) => {
 // ================================
 
 // CREATE BLOG
-app.post("/api/blogs", async (req, res) => {
+app.post("/api/blogs", authenticateToken, async (req, res) => {
 
     try {
 
@@ -219,12 +266,14 @@ app.post("/api/blogs", async (req, res) => {
 // GET ALL BLOGS
 // ================================
 
-app.get("/api/blogs", async (req, res) => {
+// GET USER'S BLOGS
+app.get("/api/blogs", authenticateToken, async (req, res) => {
 
     try {
 
-        const blogs = await Blog.find()
-            .sort({ createdAt: -1 });
+        const blogs = await Blog.find({
+            authorId: req.user.id
+        }).sort({ createdAt: -1 });
 
         res.json({
             success: true,
@@ -282,7 +331,7 @@ app.get("/api/blogs/:id", async (req, res) => {
 
 
 // UPDATE BLOG
-app.put("/api/blogs/:id", async (req, res) => {
+app.put("/api/blogs/:id", authenticateToken, async (req, res) => {
 
     try {
 
@@ -295,8 +344,11 @@ app.put("/api/blogs/:id", async (req, res) => {
             });
         }
 
-        const updatedBlog = await Blog.findByIdAndUpdate(
-            req.params.id,
+        const updatedBlog = await Blog.findOneAndUpdate(
+            {
+                _id: req.params.id,
+                authorId: req.user.id
+            },
             {
                 title: title,
                 content: content
@@ -310,7 +362,7 @@ app.put("/api/blogs/:id", async (req, res) => {
         if (!updatedBlog) {
             return res.status(404).json({
                 success: false,
-                message: "Blog not found"
+                message: "Blog not found or you are not the owner"
             });
         }
 
@@ -333,19 +385,21 @@ app.put("/api/blogs/:id", async (req, res) => {
 
 });
 
+
 // DELETE BLOG
-app.delete("/api/blogs/:id", async (req, res) => {
+app.delete("/api/blogs/:id", authenticateToken, async (req, res) => {
 
     try {
 
-        const deletedBlog = await Blog.findByIdAndDelete(
-            req.params.id
-        );
+        const deletedBlog = await Blog.findOneAndDelete({
+            _id: req.params.id,
+            authorId: req.user.id
+        });
 
         if (!deletedBlog) {
             return res.status(404).json({
                 success: false,
-                message: "Blog not found"
+                message: "Blog not found or you are not the owner"
             });
         }
 

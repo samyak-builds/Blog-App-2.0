@@ -100,12 +100,14 @@ if (loginForm) {
 
             if (data.success) {
 
-                alert("Login successful!");
+                localStorage.setItem("token", data.token);
 
                 localStorage.setItem(
                     "user",
                     JSON.stringify(data.user)
                 );
+
+                alert("Login successful!");
 
                 window.location.href = "dashboard.html";
 
@@ -141,7 +143,11 @@ async function loadBlogs() {
 
     try {
 
-        const response = await fetch("/api/blogs");
+        const response = await fetch("/api/blogs", {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+    }
+});
 
         const data = await response.json();
 
@@ -272,7 +278,8 @@ async function updateBlog(id, title, content) {
             method: "PUT",
 
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
             },
 
             body: JSON.stringify({
@@ -319,12 +326,15 @@ async function deleteBlog(id) {
 
     try {
 
-        const response =
-            await fetch(`/api/blogs/${id}`, {
+        const response = await fetch(`/api/blogs/${id}`, {
 
-                method: "DELETE"
+            method: "DELETE",
 
-            });
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+
+        });
 
         const data = await response.json();
 
@@ -350,6 +360,24 @@ async function deleteBlog(id) {
 
 }
 
+const profileName = document.getElementById("profileName");
+const profileEmail = document.getElementById("profileEmail");
+
+const savedUser = localStorage.getItem("user");
+
+if (savedUser) {
+
+    const user = JSON.parse(savedUser);
+
+    if (profileName) {
+        profileName.textContent = user.name;
+    }
+
+    if (profileEmail) {
+        profileEmail.textContent = user.email;
+    }
+
+}
 
 // Load blogs
 loadBlogs();
@@ -359,8 +387,7 @@ loadBlogs();
 // LOGOUT
 // =====================================
 
-const logoutBtn =
-    document.getElementById("logoutBtn");
+const logoutBtn = document.getElementById("logoutBtn");
 
 if (logoutBtn) {
 
@@ -368,13 +395,20 @@ if (logoutBtn) {
 
         event.preventDefault();
 
+        console.log("Logout clicked");
+
+        localStorage.removeItem("token");
         localStorage.removeItem("user");
+
+        console.log("Token after logout:", localStorage.getItem("token"));
 
         window.location.href = "login.html";
 
     });
 
 }
+
+
 // =====================================
 // CREATE BLOG
 // =====================================
@@ -424,27 +458,21 @@ if (blogForm) {
 
             const response = await fetch("/api/blogs", {
 
-                method: "POST",
+    method: "POST",
 
-                headers: {
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+    },
 
-                    "Content-Type": "application/json"
+    body: JSON.stringify({
+        title: title,
+        content: content,
+        authorId: user.id,
+        authorName: user.name
+    })
 
-                },
-
-                body: JSON.stringify({
-
-                    title: title,
-
-                    content: content,
-
-                    authorId: user.id,
-
-                    authorName: user.name
-
-                })
-
-            });
+});
 
 
             const data = await response.json();
