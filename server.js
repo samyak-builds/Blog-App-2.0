@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const User = require('./models/User');
-const Blog = require('./models/Blog');
+const Blog = require('./models/blog');
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
