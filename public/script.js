@@ -1,3 +1,14 @@
+const token = localStorage.getItem("token");
+
+if (!token) {
+    if (
+        window.location.pathname.includes("dashboard.html") ||
+        window.location.pathname.includes("createblog.html")
+    ) {
+        window.location.href = "login.html";
+    }
+}
+
 const registerForm = document.getElementById("registerForm");
 
 if (registerForm) {
